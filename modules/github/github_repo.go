@@ -53,6 +53,7 @@ func (repo *Repo) OpenPulls() {
 }
 
 // OpenIssues will open the GitHub Issues URL using the utils helper
+// TODO: this is helpful - making link clickable should happen around here?
 func (repo *Repo) OpenIssues() {
 	utils.OpenFile(*repo.RemoteRepo.HTMLURL + issuesPath)
 }
@@ -209,7 +210,6 @@ func (repo *Repo) loadPullRequests() ([]*ghb.PullRequest, error) {
 	opts.ListOptions.PerPage = 100
 
 	prs, _, err := github.PullRequests.List(context.Background(), repo.Owner, repo.Name, opts)
-
 	if err != nil {
 		return nil, err
 	}
@@ -219,13 +219,11 @@ func (repo *Repo) loadPullRequests() ([]*ghb.PullRequest, error) {
 
 func (repo *Repo) loadRemoteRepository() (*ghb.Repository, error) {
 	github, err := repo.githubClient()
-
 	if err != nil {
 		return nil, err
 	}
 
 	repository, _, err := github.Repositories.Get(context.Background(), repo.Owner, repo.Name)
-
 	if err != nil {
 		return nil, err
 	}

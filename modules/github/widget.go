@@ -138,9 +138,13 @@ func (widget *Widget) currentGithubRepo() *Repo {
 func (widget *Widget) openPr() {
 	currentSelection := widget.View.GetHighlights()
 	if widget.Selected >= 0 && len(widget.Items) > 0 && currentSelection[0] != "" {
-		url := (*widget.currentGithubRepo().RemoteRepo.HTMLURL + "/pull/" + strconv.Itoa(widget.Items[widget.Selected]))
-		utils.OpenFile(url)
+		utils.OpenFile(widget.getPrURL())
 	}
+}
+
+// TODO: use this for clicking
+func (widget *Widget) getPrURL() string {
+	return (*widget.currentGithubRepo().RemoteRepo.HTMLURL + "/pull/" + strconv.Itoa(widget.Items[widget.Selected]))
 }
 
 func (widget *Widget) openRepo() {
@@ -159,6 +163,7 @@ func (widget *Widget) openPulls() {
 	}
 }
 
+// TODO: make this clickable
 func (widget *Widget) openIssues() {
 	repo := widget.currentGithubRepo()
 

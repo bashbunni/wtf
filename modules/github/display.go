@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	ghb "github.com/google/go-github/v32/github"
+	"github.com/savioxavier/termlink"
 )
 
 func (widget *Widget) display() {
@@ -74,7 +75,7 @@ func (widget *Widget) displayMyPullRequests(repo *Repo, username string) string 
 
 	widget.SetItemCount(maxItems + prLength)
 
-	return str
+	return termlink.Link(str, widget.getPrURL())
 }
 
 func (widget *Widget) displayCustomQuery(repo *Repo, filter string, perPage int) string {
@@ -94,8 +95,10 @@ func (widget *Widget) displayCustomQuery(repo *Repo, filter string, perPage int)
 
 	str := ""
 	for idx, issue := range res.Issues {
+		// TODO: this is where I want to add clickable link
 		str += fmt.Sprintf(` [green]["%d"]%4d[""][white] %s`, maxItems+idx, *issue.Number, *issue.Title)
 		str += "\n"
+		// TODO: how do I get the URL?
 		widget.Items = append(widget.Items, *issue.Number)
 	}
 
